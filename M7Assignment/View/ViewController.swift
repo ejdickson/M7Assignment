@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    // 10 cell options for top 10 languages (according to Wikipedia) that are supported by Google translate
+    // create 10 cell options for top 10 languages (according to Wikipedia) that are supported by Google translate
     var languages = [
         Language("Chinese (Mandarin)", "Nǐ hǎo"),
         Language("Spanish", "Hola"),
@@ -23,6 +23,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         Language("Korean", "Annyeonghaseyo")
     ]
     
+    var selection = "Hello"
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return languages.count
     }
@@ -34,6 +35,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.contentConfiguration = content
         return cell
     }
+    
+    // the segue prepare performs before the update var selection, so the translation that appears on the popup corresponds to the last selection
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selection = languages[indexPath.row].translation
+        self.performSegue(withIdentifier: "toTranslation", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "toTranslation" {
+            let translation = segue.destination as! TranslationViewController
+            translation.hello = selection
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

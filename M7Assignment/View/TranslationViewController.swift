@@ -8,14 +8,18 @@
 import UIKit
 
 class TranslationViewController: UIViewController {
+    
+    var hello = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        helloLabel.text = hello
         // Do any additional setup after loading the view.
     }
     
-
+    @IBOutlet weak var helloLabel: UILabel!
+    
     /*
     // MARK: - Navigation
 
